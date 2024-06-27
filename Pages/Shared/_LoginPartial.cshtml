@@ -1,0 +1,46 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using LMSV1.Models
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    var user = await UserManager.GetUserAsync(User);
+}
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    @if (user.Role == "Student")
+    {
+        <li class="nav-item dropdown">
+            <button class="notification-bell-container dropbtn">
+                <i class="fas fa-bell" id="notificationBell"></i>
+                <span id="notificationCount"></span>
+            </button>
+            <div class="dropdown-content" id="notificationPopup">
+                <!-- Unread notifications will be populated here -->
+            </div>
+        </li>
+    }
+    <li class="nav-item">
+        <a class="nav-link" asp-area="" asp-page="/Calendar/Calendar">Calendar</a>
+    </li>
+    <li class="nav-item">
+        <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Profile" title="Manage">Profile</a>
+    </li>
+    <li class="nav-item">
+        <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+            <button id="logout" type="submit" class="nav-link btn btn-link border-0">Logout</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="siginup" asp-area="Identity" asp-page="/Account/SignUp">Sign Up</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    </li>
+}
+</ul>

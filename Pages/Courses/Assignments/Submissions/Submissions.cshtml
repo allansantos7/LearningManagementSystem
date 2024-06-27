@@ -1,0 +1,92 @@
+﻿@page "{id:int}"
+@model LMSV1.Pages.Courses.Assignments.Submissions.IndexModel
+@using Microsoft.AspNetCore.Identity
+@using LMSV1.Models;
+
+@inject UserManager<User> UserManager
+@{
+    ViewData["Title"] = "Submissions";
+    var user = UserManager.GetUserAsync(User);
+}
+
+<h1>Submissions</h1>
+
+@* <p>
+    <a asp-page="Create">Create New</a>
+</p> *@
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Submission[0].Assignment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Submission[0].User)
+            </th>
+            @if (Model.Submission.Count > 0 && Model.Submission[0].FileName != null)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Submission[0].FileName)
+                </th>
+            }
+            else
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Submission[0].TextSubmission)
+                </th>
+            }
+            <th>
+                @Html.DisplayNameFor(model => model.Submission[0].Score)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Submission[0].SubmissionDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.Submission) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Assignment.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.Email)
+                </td>
+                @if (item.FileName != null)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FileName)
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TextSubmission)
+                    </td>
+                }
+                <td>
+                    @if (item.Score != null)
+                    {
+                        @Html.DisplayFor(modelItem => item.Score)
+                    }
+                    else
+                    {
+                        <b>Ungraded</b>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubmissionDate)
+                </td>
+                <td>
+                    <a asp-page="./Grade" asp-route-id="@item.SubmissionID"
+                       asp-route-assId="@ViewData["assId"]"
+                       asp-route-cId="@ViewData["cId"]">
+                        Grade
+                    </a>
+                </td>
+            </tr>
+    }
+    </tbody>  
+</table>
+<a asp-page="../../CourseHome" asp-route-id="@ViewData["cId"]">Back to Assignments</a>

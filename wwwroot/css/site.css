@@ -1,0 +1,274 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+
+/* Styles for profile image */
+.profile-image {
+    width: 150px; /* Adjust the size as needed */
+    height: 150px; /* Adjust the size as needed */
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid #fff; /* Optional: Add a border around the circle */
+}
+
+.profile-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Ensures the image covers the entire circle */
+}
+
+/* Styles for dashboard page */
+.card {
+    width: 40%;
+    display: block;
+    float: left;
+    border: double;
+    padding: 4px;
+    background-color: lightsteelblue;
+}
+.todo-group {
+   background-color: #EBEBEB;
+   border-color: maroon;
+   border-width: thick;
+}
+list-group {
+    background-color: #ABBAEA;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 75% 25%;
+}
+
+.grid-container h1,
+.grid-container h4{
+    height: 4vh;
+}
+
+/* Styles for course registration page */
+.class-box {
+    border: 1px solid black;
+    margin: 10px;
+}
+
+thead {
+    font-weight: bold;
+    text-align: center;
+    background-color: lightsteelblue;
+}
+
+
+table th {
+    font-weight: bold;
+    text-align: center;
+}
+table tr {
+    border: 2px solid black;
+    padding: 15px;
+}
+
+table td {
+    padding: 15px;
+    text-align: center;
+}
+
+table {
+    width: 100%;
+}
+
+/* Styles for Calendar */
+.fc {
+    background-color: white;
+}
+
+/* Calendar event specific */
+div.fc-event-title {
+    font-size: 10px;
+    white-space: normal;
+}
+
+div.fc-event-time {
+    font-size: 9px;
+    white-space: normal;
+}
+
+#calendar {
+    background-color: #f0f0f0;
+}
+
+/* Styles for Navbar */
+.navbar-nav {
+    /* 
+        background-image: linear-gradient(90deg, rgb(139, 18, 125) 0%, rgb(139, 18, 125) 27%, rgb(159, 51, 114) 27%, rgb(159, 51, 114) 27%, rgb(159, 51, 114) 34%, rgb(179, 84, 102) 34%, rgb(179, 84, 102) 37%, rgb(198, 117, 91) 37%, rgb(198, 117, 91) 40%, rgb(218, 150, 79) 40%, rgb(218, 150, 79) 77%, rgb(238, 183, 68) 77%, rgb(238, 183, 68) 100%);
+    */
+    background-color: #7D7C7C;
+}
+
+a.navbar-brand {
+    color: #e8e2e2;
+    font-family: 'Brush Script MT', cursive;
+    font-size: 32px;
+}
+
+a.nav-link {
+    color: #f9f5eb;
+}
+
+a.nav-link:hover {
+    color: #2d2727;
+}
+
+li.nav-item {
+    border: thin;
+    background-color: #7D7C7C;
+    color: #2d2727;
+}
+
+button#logout.nav-link {
+    color: #2d2727;
+}
+
+button#logout.nav-link:hover {
+    color: #2d2727;
+}
+
+li.nav-item:hover {
+    background-color: #f9f5eb;
+    color: #f9f5eb;
+}
+
+/* Dropdown button */
+.dropdown .dropbtn {
+    font-size: 16px;
+    border: none;
+    outline: none;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit; /* Important for vertical align on mobile phones */
+    margin: 0; /* Important for vertical align on mobile phones */
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    color: black;
+    min-width: 160px;
+    width: max-content;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.notification-item {
+    z-index: 6;
+    padding: 10px;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* Styles for Header */
+header {
+    background-color: #7D7C7C;
+}
+
+/* Styles for Every Page Background */
+body {
+    /*
+        background-image: linear-gradient(0deg, #2b2a4c 0%, #b31312 27%, #b31312 27%, #b31312 27%, #dddb76 34%, #e4f2ef 34%, #e4f2ef 37%, #388895 37%, #388895 40%, rgb(255, 255, 255) 40%, rgb(255, 255, 255) 77%, rgb(255, 255, 255) 77%, rgb(255, 255, 255) 100%);
+    */
+    background-color: #f0f0f0;
+}
+
+/* Styles for Footer */
+footer {
+    background-color: #3c486b;
+}
+#col-1 {
+    position: relative;
+    width: 50%;
+    float: left;
+    height: 300px;
+    background-color: #f0f0f0;
+    z-index: 1010101010;
+    z-index: 2;
+}
+
+#col-2 { /* Chart style */
+    
+    position: relative;
+    width: 50%;
+    float: left;
+    height: 300px;
+    background-color: #f0f0f0;
+    z-index: 1010101010;
+    border: 2px solid #fff; /* Optional: Add a border around the circle */
+    border-color:darkgrey;
+    z-index: 2;
+}
+
+#notificationPopup {
+    z-index: 6;
+}
+.SubmissionText
+{
+    width: 100%;
+    padding-right: 1em;
+    padding-left: 1em;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* styles for account page */
+.checkout {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.checkout label {
+    flex: 0 0 auto;
+    margin-right: 10px;
+}
+
+.checkout input {
+    padding: 8px;
+    margin-top: 20px;
+    margin-right: 10px;
+    border: 1px solid #ddd;
+}
+
+.checkout button {
+    padding: 8px 16px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.checkout button:hover {
+    background-color: #4cae4c;
+}

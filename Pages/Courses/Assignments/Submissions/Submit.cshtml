@@ -1,0 +1,63 @@
+﻿@page
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@model LMSV1.Pages.Courses.Assignments.Submissions.SubmitModel
+@{
+    ViewData["Title"] = "Submit Assignment";
+}
+
+<h1>Submit Assignment</h1>
+<hr />
+<div class="row">
+    @if (Model.Assignment.SubmissionType == Models.SubmissionType.FileUpload)
+    {
+        <div class="col-md-4">
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <span>Select File:</span>
+                <br />
+                @* removed ability to submit multiple files for now, will add back later
+                    multiple asp-for="Input.FileName
+                *@
+                <input type="file" name="postedFiles" asp-for="Input.FileName" />
+                <br />
+                <br />
+                <div class="form-group">
+                    <input type="submit" id="submit" value="Upload" class="btn btn-primary" />
+                </div>
+                @* disabled, successful file submission navigates to success page
+                    <span style="color:green">@Html.Raw(Model.Message)</span>*@
+            </form>
+        </div>
+     }
+     @*        <div class="form-group">
+                <label asp-for="Input.FileName" class="control-label"></label>
+                <input asp-for="Input.FileName" class="form-control" />
+                <span asp-validation-for="Input.FileName" class="text-danger"></span>
+            </div> *@
+    @if (Model.Assignment.SubmissionType == Models.SubmissionType.TextEntry)
+     {
+        <div class="SubmissionText">
+            <form method ="post">
+                 <div class="form-group">
+                <label asp-for="Input.TextSubmission" class="control-label">
+                    Type your submission in the textbox below:
+                </label>
+                    <textarea asp-for="Input.TextSubmission" rows="4" class="form-control"></textarea>
+                <span asp-validation-for="Input.TextSubmission" class="text-danger"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <input type="submit" id="submit" value="Upload" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+     }
+</div>
+
+<div>
+    @* <a asp-page="../Assignment" asp-route-id="@Model.Submission.AssignmentID">Back to List</a> *@
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

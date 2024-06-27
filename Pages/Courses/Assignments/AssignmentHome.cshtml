@@ -1,0 +1,200 @@
+﻿@page "{id:int}"
+@model LMSV1.Pages.Courses.Assignments.AssignmentHomeModel
+@using Microsoft.AspNetCore.Identity
+@using LMSV1.Models
+<!--This line below was added for test purposes with the file submission-->
+@using (Html.BeginForm("SendMessage", "MessageController", FormMethod.Post))
+
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+@{
+    ViewData["Title"] = "Details";
+    ViewData["Assignment"] = "Assignment";
+    var user = await UserManager.GetUserAsync(User);
+}
+
+@*<h1>@Model.Assignment.CourseID Assignment - @Model.Assignment.Title</h1>*@
+
+<div id="col-1">
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Assignments.Title)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.Assignments.Title)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Assignments.Description)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.Assignments.Description)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Assignments.MaxPoints)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.Assignments.MaxPoints)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Assignments.DueDate)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.Assignments.DueDate)</dd>
+        <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Assignments.CourseID)</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.Assignments.CourseID)</dd>
+        @if (user.Role == "Student")
+        {
+            <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Submissions.Score)</dt>
+
+            @if (Model.Submissions != null && Model.Submissions.Score != null)
+            {
+                <dd class="col-sm-8"><b>@Html.DisplayFor(model => model.Submissions.Score) - @Html.DisplayFor(model => model.SubmissionLetterGrade)</b></dd>
+            }
+            else
+            {
+                <dd class="col-sm-8"><b>Not Yet Graded.</b></dd>
+            }
+        }
+    </dl>
+</div>
+<div id="col-2">
+    @* @if (user.Role == "Student"){ *@
+        @{
+    //Start of pie chart code this is what needs to be done to get the values to work correctly
+    var scoreA = 0;
+    var scoreB = 0;
+    var scoreC = 0;
+    var scoreD = 0;
+    var scoreE = 0;
+    var maxScore = Model.Assignments.MaxPoints;
+
+        <!--Pie Chart to display for students only-->
+
+        <!--Load the AJAX API-->
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+
+            // Load the Visualization API and the corechart package.
+            google.charts.load('current', { 'packages': ['corechart'] });
+
+            // Set a callback to run when the Google Visualization API is loaded.
+            google.charts.setOnLoadCallback(drawChart);
+
+        @foreach (var points in Model.SubmissionGrade)
+        {
+            double? scoredPoints = points.Score;
+            double? scoreRatio = (scoredPoints / maxScore) * 100;
+
+            if (scoreRatio >= 90)
+            {
+                scoreA++;
+            }
+            if (scoreRatio >= 80 && scoreRatio <= 89.9)
+            {
+                scoreB++;
+            }
+            if (scoreRatio >= 70 && scoreRatio <= 79.9)
+            {
+                scoreC++;
+            }
+            if (scoreRatio >= 60 && scoreRatio <= 69.9)
+            {
+                scoreD++;
+            }
+            if (scoreRatio <= 59.9)
+            {
+                scoreE++;
+            }
+        }
+
+            // Callback that creates and populates a data table,
+            // instantiates the pie chart, passes in the data and
+            // draws it.
+            function drawChart() {
+
+                // Create the data table.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'LetterGrade');
+                data.addColumn('number', 'GradeAmounts');
+                data.addRows([
+                    ['A', @scoreA],
+                    ['B', @scoreB],
+                    ['C', @scoreC],
+                    ['D', @scoreD],
+                    ['E', @scoreE]
+                ]);
+
+                // Set chart options
+                var options = {
+                        title: 'Class Grades for this assignment',
+                            colors: ['#00FF00', //A - Green
+                                     '#00BB00', //B - Light Green
+                                     '#CCCC00', //C - Yellow
+                                     '#FF0000', //D
+                                     '#FF0000'],//E - Red                                    
+                            is3D: true
+                };
+
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.PieChart(document.getElementById('col-2'));
+                chart.draw(data, options);
+            }
+        </script>
+        } 
+</div>
+
+
+<p></p>
+@if (user.Role == "Student")
+{
+@* <<<<<<< HEAD *@
+    @if (Model.Assignments.DueDate > DateTime.Now)
+    {
+        <a asp-page="./Submissions/Submit" asp-route-Assignmentid="@Model.Assignments.AssignmentID" asp-route-UserID="@user.Id"><b>Submit Assignment</b></a>
+    } 
+    else
+    {
+        <h5>This assignment is locked. No more submissions can be made past the due date.</h5>
+    }
+    <div>
+        <br />
+    </div>
+    @* ======= *@
+    @* Disabled, no multiple Scored attempt at this time
+    @if (Model.Submissions != null)
+    {
+        //Used to keep track of the score locally and the number of submitted attempts to find the average score
+        double? score = 0.0;
+        int? attempt = 0;
+        var item = Model.Submissions;
+
+        <h6>New attempt submitted</h6>
+        <!--If the users attempt has been graded it will show otherwise it will inform the student it has not yet been graded-->
+        @if (item.Score != null)
+        {
+            <p>
+                Score for this attempt:
+                @Html.DisplayFor(modelItem => item.Score)
+            </p>
+            score += item.Score;
+            attempt += 1;
+
+        }
+        else
+        {
+            <p>THIS ATTEMPT HAS NOT YET BEEN GRADED</p>
+        }
+
+    
+    //This takes the average score and displays it at the bottom of the page
+        double? finalScore = score / attempt;
+        <h6>Final Score: </h6>
+        <p>@finalScore</p>
+    }
+    *@
+
+
+    <body>
+        <!--Div that will hold the pie chart-->
+        <div id="chart_div"></div>
+    </body>
+    
+    
+@* >>>>>>> 50123b490868ca4a2a912633261783ebf44e2cd0 *@
+}
+
+@if (await UserManager.IsInRoleAsync(user, "Instructor"))
+{
+    <div>
+        <a asp-page="./AssignmentEdit" asp-route-id="@Model.Assignments.AssignmentID">Edit</a> |
+        <a asp-page="../CourseHome" asp-route-id="@Model.Assignments.CourseID">Back to Course</a>
+    </div>
+}
+
